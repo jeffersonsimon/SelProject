@@ -150,7 +150,7 @@ public class Reporter {
 		 }
 		  }
 	
-	void waitForLoad(WebDriver driver) {
+	public static void waitForLoad(WebDriver driver) {
 	    new WebDriverWait(driver, 60).until((ExpectedCondition<Boolean>) wd ->
 	            ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
 	}
