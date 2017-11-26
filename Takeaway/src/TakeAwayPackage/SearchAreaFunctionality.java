@@ -1,31 +1,21 @@
 package TakeAwayPackage;
 
 import org.testng.annotations.Test;
-
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-
-
 import org.testng.annotations.BeforeTest;
-
-import java.sql.Driver;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 
 public class SearchAreaFunctionality {
 	
 	WebDriver driver;
-	ExtentReports report;
-	  ExtentTest test;
-  @Test(priority = 1, enabled = true)
-  public void SearchFunctionalityPositiveScenario() throws InterruptedException {
-	  
+	
+	//This Test checks if the SearchText box exists and if it is enabled	  
+@Test(priority = 1, enabled = true)
+public void CheckExistenceofSearchTextbox() 
+{
 	  if(driver.findElements(Locators.SearchString).size()!=0)
 	  {
 		  Reporter.ReportStatus("Pass","The Search Textbox is present");
@@ -42,7 +32,14 @@ public class SearchAreaFunctionality {
 	 else
 	 {
 		 Reporter.ReportWithScreenshot("Fail","The Search Textbox is not Enabled",driver);
-	 }
+	 }	
+}
+	  
+//The Search TextBox is given correct inputs(e.g. street name) and checked if the restaurants are displayed	  
+  @Test(priority = 2, enabled = true) 
+  public void SearchFunctionalityPositiveScenario() throws InterruptedException {
+	  
+
 	  driver.findElement(Locators.SearchString).click();
 	  
 	  if(driver.findElement(Locators.AutoComplete).isDisplayed())
@@ -78,8 +75,8 @@ public class SearchAreaFunctionality {
 	  }
 	  
   }
-  
-  @Test(priority = 2, enabled = true)
+//The Search TextBox is given incorrect inputs(e.g. special characters) and checked if the expected error message is displayed
+  @Test(priority = 3, enabled = true) 
   public void SearchFunctionalityNegativeScenario() throws InterruptedException
   {
 	  driver.findElement(Locators.Logo).click();
@@ -110,9 +107,9 @@ public class SearchAreaFunctionality {
   
   @BeforeTest
   public void beforeTest() {
-	  Reporter.initialize();
-	  //System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver_win32\\chromedriver.exe");
-	  //driver=new ChromeDriver();
+	  // The ArrayLists related to HTML Reporting are Initialized
+	  Reporter.initialize(); 
+	  //The Path for webdriver gecko driver is mentioned for using Firefox Driver
 	  System.setProperty("webdriver.gecko.driver", "C:\\Selenium\\geckodriver-v0.19.1-win64\\geckodriver.exe");
 	  driver=new FirefoxDriver();
 	  driver.manage().timeouts().pageLoadTimeout(300, TimeUnit.SECONDS);
@@ -123,7 +120,9 @@ public class SearchAreaFunctionality {
 
   @AfterTest
   public void afterTest() {
+	  
 	  //driver.quit();
+	  //The final HTML report is created 
 	  Reporter.writeResults();
   }
 

@@ -23,18 +23,29 @@ public class Reporter {
 	private static List<Result> details;
 	private static List<String> ScreenshotPathlist;
 	private static final String resultPlaceholder = "<!-- INSERT_RESULTS -->";
+	 //Mention the path of the Template HTML report path here
 	private static final String templatePath = "C:\\Selenium\\report_template.html";
 	static String ScreenshotPath;
 	static int intScreenshotCounter=0;
 	static boolean ScreenshotFlag=false;
 	public Reporter() {
 	}
-	
+	/*
+	 * Function name: initialize
+	 * Purpose: To initialize the required ArrayLists for HTML report creation
+	 * Parameters: No parameters
+	 */
 	public static void initialize() {
 		details = new ArrayList<Result>();
 		ScreenshotPathlist= new ArrayList<String>();
 	}
-	
+	/*
+	 * Function name: report
+	 * Purpose: To compare two values and send the result to the HTML report and in case of failure take a screenshot
+	 * Parameters: 1st Parameter- The Actual Value from the application
+	 * 				2nd Parameter- The Expected Value
+	 * 				3rd Parameter- pass the Webdriver object
+	 */
 	public static void report(String actualValue,String expectedValue, WebDriver driver) {
 		if(actualValue.equals(expectedValue)) {
 			Result r = new Result("<font color=\"green\">Pass</font>","Actual value '" + actualValue + "' matches expected value");
@@ -45,7 +56,13 @@ public class Reporter {
 			details.add(r);
 		}
 	}
-	
+	/*
+	 * Function name: ReportWithScreenshot
+	 * Purpose: To send a custom message to the HTML report with a screenshot
+	 * Parameters: 1st Parameter- Status, mentioned Pass, Fail, Done or Warning
+	 * 				2nd Parameter- Description of the Status, Elaborate more on the Status
+	 * 				3rd Parameter- pass the Webdriver object
+	 */
 	public static void ReportWithScreenshot(String Status,String InformationText,WebDriver driver) {
 		Reporter.captureScreenShot(driver);
 		if(Status.contains("Done"))
@@ -71,12 +88,24 @@ public class Reporter {
 		
 	}
 	
+	/*
+	 * Function name: report
+	 * Purpose: To add a custom message to the HTML report without any screenshot and only with Status Done
+	 * Parameters: Description of the Status, Elaborate more on the Status
+	 * 				
+	 */
 	public static void report(String InformationText) {
 		
 			Result r = new Result("<font color=\"blue\">Done</font>",InformationText);
 			details.add(r);
 		
 	}
+	/*
+	 * Function name: ReportStatus
+	 * Purpose: To send a custom message to the HTML report without a screenshot
+	 * Parameters: 1st Parameter- Status, mentioned Pass, Fail, Done or Warning
+	 * 				2nd Parameter- Description of the Status, Elaborate more on the Status
+	 */
 	public static void ReportStatus(String Status,String InformationText) {
 		if(Status.contains("Done"))
 		{
@@ -101,13 +130,21 @@ public class Reporter {
 		
 	
 }
-	
+	/*
+	 * Function name: showResults
+	 * Purpose: This is used to know the contents of the details ArrayList
+	 * Parameters: No Parameters
+	 */
 	public static void showResults() {
 		for (int i = 0;i < details.size();i++) {
 			System.out.println("Result " + Integer.toString(i) + ": " + details.get(i).getResult());
 		}
 	}
-	
+	/*
+	 * Function name: writeResults
+	 * Purpose: This is used to create the final HTML report. This function is called towards the end of the Test
+	 * Parameters: No Parameters
+	 */
 	public static void writeResults() {
 		try {
 			String reportIn = new String(Files.readAllBytes(Paths.get(templatePath)));
@@ -132,7 +169,11 @@ public class Reporter {
 			System.out.println("Error when writing report file:\n" + e.toString());
 		}
 	}
-	
+	/*
+	 * Function name: captureScreenShot
+	 * Purpose: This is used to create the final HTML report. This function is called towards the end of the Test
+	 * Parameters: pass the Webdriver object
+	 */
 	public static void captureScreenShot(WebDriver ldriver){
 		
 		// Take screenshot and store as a file format             
@@ -149,7 +190,11 @@ public class Reporter {
 		  System.out.println(e.getMessage()) ;
 		 }
 		  }
-	
+	/*
+	 * Function name: waitForLoad
+	 * Purpose: When this function is used, it will wait for the page to be fully loaded
+	 * Parameters: pass the Webdriver object
+	 */
 	public static void waitForLoad(WebDriver driver) {
 	    new WebDriverWait(driver, 60).until((ExpectedCondition<Boolean>) wd ->
 	            ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
