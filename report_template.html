@@ -1,0 +1,44 @@
+<html>
+<head>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #000000;
+    text-align: left;
+    padding: 8px;
+    
+}
+
+th {
+    background-color: #dddddd;
+}
+</style>
+<title id="time1"></title>
+
+</head>
+<body>
+<h3 id="time3"></h3>
+<script type="text/javascript">
+
+    var today = new Date;
+    document.getElementById('time1').innerHTML= "Report generated on "+today.toDateString();
+    document.getElementById('time3').innerHTML= "Report generated on "+today;
+</script>
+<table>
+<tr>
+<th colspan="4"><center>TakeAway.com Test Results</center></th>
+</tr>
+<tr>
+<th width="10%">Step</th>
+<th width="10%">Result</th>
+<th width="80%">Remarks</th>
+<th width="80%">Screenshot</th>
+</tr>
+<!-- INSERT_RESULTS -->
+</table>
+</body>
