@@ -139,7 +139,8 @@ public void CheckExistenceofSearchTextbox()
   @AfterTest
   public void afterTest() {
 	  
-	  //driver.quit();
+	  driver.quit();
+	  Reporter.ReportStatus("Done","Browser is closed");
 	  //The final HTML report is created 
 	  Reporter.writeResults();
   }
