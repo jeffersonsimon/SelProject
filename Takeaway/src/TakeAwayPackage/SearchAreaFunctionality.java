@@ -2,6 +2,8 @@ package TakeAwayPackage;
 
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
+
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +13,22 @@ import org.testng.annotations.AfterTest;
 public class SearchAreaFunctionality {
 	
 	WebDriver driver;
+
+	@DataProvider
+	 public Object[][] PositiveScenario() {
+	    return new Object[][] {
+	      new Object[] {"SearchTextPositive","Wolfsburg Hbf"}
+	      
+	    }; 
+		  
+	  }
+	@DataProvider
+	 public Object[][] NegativeScenario() {
+	    return new Object[][] {
+	      new Object[] {"SearchTextNegative","38440"}
+	    }; 
+		  
+	  }
 	
 	//This Test checks if the SearchText box exists and if it is enabled	  
 @Test(priority = 1, enabled = true)
@@ -36,8 +54,8 @@ public void CheckExistenceofSearchTextbox()
 }
 	  
 //The Search TextBox is given correct inputs(e.g. street name) and checked if the restaurants are displayed	  
-  @Test(priority = 2, enabled = true) 
-  public void SearchFunctionalityPositiveScenario() throws InterruptedException {
+  @Test(priority = 2, enabled = true, dataProvider = "PositiveScenario") 
+  public void SearchFunctionalityPositiveScenario(String s,String SearchTextPositive ) throws InterruptedException {
 	  
 
 	  driver.findElement(Locators.SearchString).click();
@@ -51,7 +69,7 @@ public void CheckExistenceofSearchTextbox()
 		 Reporter.ReportWithScreenshot("Fail","The Auto Complete drop down is displayed",driver);
 	 }
 	  Thread.sleep(3000);
-	  driver.findElement(Locators.SearchString).sendKeys("Wolfsburg Hbf");
+	  driver.findElement(Locators.SearchString).sendKeys(SearchTextPositive);
 	  Thread.sleep(3000);
 	  
 	  driver.findElement(Locators.Autosuggestions).click();
@@ -76,14 +94,14 @@ public void CheckExistenceofSearchTextbox()
 	  
   }
 //The Search TextBox is given incorrect inputs(e.g. special characters) and checked if the expected error message is displayed
-  @Test(priority = 3, enabled = true) 
-  public void SearchFunctionalityNegativeScenario() throws InterruptedException
+  @Test(priority = 3, enabled = true, dataProvider = "NegativeScenario") 
+  public void SearchFunctionalityNegativeScenario(String s,String SearchTextNegative) throws InterruptedException
   {
 	  driver.findElement(Locators.Logo).click();
 	  driver.findElement(Locators.SearchString).click();
 	  Thread.sleep(3000);
 	  driver.findElement(Locators.SearchString).clear();
-	  driver.findElement(Locators.SearchString).sendKeys("38440");
+	  driver.findElement(Locators.SearchString).sendKeys(SearchTextNegative);
 	  Thread.sleep(3000);
 	  driver.findElement(Locators.SearchString).click();
 	  try
